@@ -53,14 +53,29 @@ $image = checkImage();
 if ($image === 1) {
     echo "Error,Please upload another image";
 } else {
-    $sql = "INSERT INTO covied19deaths (First_Name, Last_Name, Gender, Social_Condition , Date_of_Birth, Date_of_Death, Date_of_getting_Symptoms , Symptoms , Country , State) VALUES ('$first_name', '$last_name','$gender','$socialCondition','$dateOfBirth' ,'$dateOfDeath','$dateOfgettingSymptoms' ,'$Symptoms','$Country' ,'$State')";
-    mysqli_query($conn, $sql);
-    $last_id = $conn->insert_id;
-    $uploadedPath = $image['currentDirectory'] . $image['uploadDirectory'] . basename((string)$last_id) . "." . $image['fileExtension'];
-    move_uploaded_file($image['fileTmpName'], $uploadedPath);
-    $updateImage = "UPDATE covied19deaths SET Photo='$uploadedPath' WHERE ID = $last_id";
-    mysqli_query($conn, $updateImage);
+    $dateOfDeathDate = strtotime($dateOfDeath);
+    $dateOfBirthDate = strtotime($dateOfBirth);
+    $dateOfgettingSymptomsDate = strtotime($dateOfgettingSymptoms);
+    $age = ($dateOfDeathDate - $dateOfBirthDate) / 60 / 60 / 24;
+    $illPeriod = ($dateOfDeathDate - $dateOfgettingSymptomsDate) / 60 / 60 / 24;
+    if ($age >= 0) {
+        if ($illPeriod >= 0) {
+            $sql = "INSERT INTO covied19deaths (First_Name, Last_Name, Gender, Social_Condition , Date_of_Birth, Date_of_Death, Date_of_getting_Symptoms , Symptoms , Country , State) VALUES ('$first_name', '$last_name','$gender','$socialCondition','$dateOfBirth' ,'$dateOfDeath','$dateOfgettingSymptoms' ,'$Symptoms','$Country' ,'$State')";
+            mysqli_query($conn, $sql);
+            $last_id = $conn->insert_id;
+            $uploadedPath = $image['currentDirectory'] . $image['uploadDirectory'] . basename((string)$last_id) . "." . $image['fileExtension'];
+            move_uploaded_file($image['fileTmpName'], $uploadedPath);
+            $updateImage = "UPDATE covied19deaths SET Photo='$uploadedPath' WHERE ID = $last_id";
+            mysqli_query($conn, $updateImage);
+            mysqli_close($conn);
+            header('Location: Place.php?status=success');
+        } else {
+            mysqli_close($conn);
+            header('Location: Place.php?status=fail');
+        }
+    } else {
+        mysqli_close($conn);
+        header('Location: Place.php?status=fail');
+    }
 }
-mysqli_close($conn);
-header("Location: Place.php?status=success");
 exit;
