@@ -28,6 +28,10 @@ https://templatemo.com/tm-535-softy-pinko
       {
         echo 'alert("Done\nData had been Stored\n");';
       }
+      elseif($do == 'fail')
+      {
+        echo 'alert("Error\nData had not been Stored\nPlease,Check your Data again\n");';
+      }
       ?>
   </script>
 
