@@ -22,17 +22,18 @@ https://templatemo.com/tm-535-softy-pinko
 
   <link rel="stylesheet" href="assets/css/templatemo-softy-pinko.css">
   <script>
-      <?php
-      $do = isset($_GET['status']) ? $_GET['status'] : '';
-      if($do == 'success')
-      {
-        echo 'alert("Done\nData had been Stored\n");';
-      }
-      elseif($do == 'fail')
-      {
-        echo 'alert("Error\nData had not been Stored\nPlease,Check your Data again\n");';
-      }
-      ?>
+    <?php
+    $do = isset($_GET['status']) ? $_GET['status'] : '';
+    if ($do == 'success') {
+      echo 'alert("Done\nData had been Stored\n");';
+    } elseif ($do == 'photo') {
+      echo 'alert("Error\nImage is invalid\nPlease,Upload image with png or jpg extenstion and size lower than 5mb\n");';
+    } elseif ($do == 'age') {
+      echo 'alert("Error\nAge is invalid\nPlease,Check Date of Birth and Date of Death again\n");';
+    } elseif ($do == 'illPeriod') {
+      echo 'alert("Error\nIll Period is invalid\nPlease,Check Date of getting Symptoms and Date of Death again\n");';
+    }
+    ?>
   </script>
 
 </head>

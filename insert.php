@@ -51,7 +51,8 @@ function checkImage()
 }
 $image = checkImage();
 if ($image === 1) {
-    echo "Error,Please upload another image";
+    mysqli_close($conn);
+    header('Location: Place.php?status=photo');
 } else {
     $dateOfDeathDate = strtotime($dateOfDeath);
     $dateOfBirthDate = strtotime($dateOfBirth);
@@ -71,11 +72,11 @@ if ($image === 1) {
             header('Location: Place.php?status=success');
         } else {
             mysqli_close($conn);
-            header('Location: Place.php?status=fail');
+            header('Location: Place.php?status=illPeriod');
         }
     } else {
         mysqli_close($conn);
-        header('Location: Place.php?status=fail');
+        header('Location: Place.php?status=age');
     }
 }
 exit;
